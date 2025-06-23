@@ -8,22 +8,38 @@ pygame.init()
 # Window setup
 WIN_WIDTH = 500
 WIN_HEIGHT = 700
-win = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
+win = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+WIN_WIDTH, WIN_HEIGHT = win.get_size()  # Automatically detect screen size
+
 pygame.display.set_caption("Flappy Bird - Playable")
 
+def scale_image(image, width_scale, height_scale):
+    return pygame.transform.scale(image, (int(image.get_width() * width_scale), int(image.get_height() * height_scale)))
+
 # Load assets
-BIRD_IMG = pygame.image.load(os.path.join("assets", "bird.png"))
-PIPE_IMG = pygame.image.load(os.path.join("assets", "pipe.png"))
-BASE_IMG = pygame.image.load(os.path.join("assets", "base.png"))
-BG_IMG = pygame.image.load(os.path.join("assets", "background.png"))
+BIRD_IMG_RAW = pygame.image.load(os.path.join("assets", "bird.png"))
+PIPE_IMG_RAW = pygame.image.load(os.path.join("assets", "pipe.png"))
+BASE_IMG_RAW = pygame.image.load(os.path.join("assets", "base.png"))
+BG_IMG_RAW = pygame.image.load(os.path.join("assets", "background.png"))
+
+# Determine scale factors
+width_scale = WIN_WIDTH / 500
+height_scale = WIN_HEIGHT / 700
+
+# Scaled images
+BIRD_IMG = scale_image(BIRD_IMG_RAW, width_scale, height_scale)
+PIPE_IMG = scale_image(PIPE_IMG_RAW, width_scale, height_scale)
+BASE_IMG = scale_image(BASE_IMG_RAW, width_scale, height_scale)
+BG_IMG = pygame.transform.scale(BG_IMG_RAW, (WIN_WIDTH, WIN_HEIGHT))
 
 FONT = pygame.font.SysFont("comicsans", 50)
 
 # Game constants
 GRAVITY = 1.5
 JUMP_VELOCITY = -10.5
-PIPE_GAP = 200
-PIPE_VEL = 5
+PIPE_GAP = int(200 * height_scale)
+PIPE_VEL = int(5 * width_scale)
+
 
 class Bird:
     def __init__(self, x, y):
