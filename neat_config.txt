@@ -1,0 +1,14 @@
+[NEAT]
+fitness_criterion     = max
+fitness_threshold     = 5000
+pop_size              = 50
+reset_on_extinction   = False
+
+[DefaultGenome]
+num_inputs            = 3
+num_outputs           = 1
+activation_default    = sigmoid
+...
+
+[DefaultSpeciesSet]
+compatibility_threshold = 3.0
